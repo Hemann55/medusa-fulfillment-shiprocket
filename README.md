@@ -1,6 +1,6 @@
 # medusa-fulfillment-shiprocket
 
-Shiprocket fulfillment for MedusaJS
+W.I.P. Shiprocket fulfillment plugin for MedusaJS
 
 This plugin is inspired by Medusa's Official [Webshipper Plugin](https://github.com/medusajs/medusa/tree/cab5821f55cfa448c575a20250c918b7fc6835c9/packages/medusa-fulfillment-webshipper)
 
@@ -11,9 +11,8 @@ This plugin is inspired by Medusa's Official [Webshipper Plugin](https://github.
 
 - Shiprocket can be used as a shipping option during checkouts and for handling order fulfillment and returns.
 - Sync order details and updates with Shiprocket.
-- Support for Shiprocket webhooks.
-
----
+- WIP: Listen to shipment status updates via webhooks
+- WIP: Shipment tracking endpoints
 
 
 ## Prerequisites
@@ -45,7 +44,6 @@ SHIPROCKET_USER_ID=<YOUR_SHIPROCKET_USER_ID>
 SHIPROCKET_CHANNEL_ID=<YOUR_SHIPROCKET_CHANNEL_ID>
 SHIPROCKET_EMAIL=<YOUR_SHIPROCKET_EMAIL>
 SHIPROCKET_PASSWORD=<YOUR_SHIPROCKET_PASSWORD>
-SHIPROCKET_TOKEN=<YOUR_SHIPROCKET_TOKEN>
 ```
 
 3\. In `medusa-config.js` add the following at the end of the `plugins` array:
@@ -56,13 +54,10 @@ const plugins = [
   {
     resolve: `medusa-fulfillment-shiprocket`,
     options: {
-      company_name: process.env.COMPANY_NAME, //(required)
-      company_id: process.env.SHIPROCKET_COMPANY_ID, //(required)
-      user_id: process.env.SHIPROCKET_USER_ID, //(required)
       channel_id: process.env.SHIPROCKET_CHANNEL_ID, //(required)
       email: process.env.SHIPROCKET_EMAIL, //(required)
       password: process.env.SHIPROCKET_PASSWORD, //(required)
-      token: process.env.SHIPROCKET_TOKEN, //(required)
+      token: "", //(required. leave empty)
       pricing: 'calculated', //"flat_rate" or "calculated" (required)
       length_unit: 'cm', //"mm", "cm" or "inches" (required)
       multiple_items: 'split_shipment', //"single_shipment" or "split_shipment"(default) (required)
@@ -107,7 +102,8 @@ You can specify the length units in mm, cm or inches depending on your preferenc
 pricing: flat_rate - Use this if you want to charge a fixed shipping rate to your customers at checkout.
 pricing: calculated - Use this if your want to charge the actual shipping charge of the shipping option at checkout.
 
-Don't forget to do the same when you add shipping options to your region in Medusa Admin
+Don't forget to do the same when you add shipping options to your region in Medusa Admin.
+
 
 ---
 
@@ -138,7 +134,7 @@ qc: {
 ```
 
 Remember to add this in your ITEM'S metadata for each item and not CART'S metadata. 
-Note: If there are multiple items, quality check will be performed only on a single item as per Shiprocket. Which item? Shiprocket won't tell us.
+Note: If there are multiple items, quality check will be performed only on a single item. Which item? Shiprocket won't tell us.
 
 ---
 
@@ -219,7 +215,7 @@ If your buisness logic requires a different functionality than described as abov
 ---
 
 
-## Related links:
+## Resources:
 
 - Creating a fulfilment provider: https://docs.medusajs.com/advanced/backend/shipping/add-fulfillment-provider
 - Fulfillment provider interface: https://github.com/medusajs/medusa/blob/master/packages/medusa-interfaces/src/fulfillment-service.js
@@ -231,4 +227,4 @@ If your buisness logic requires a different functionality than described as abov
 
 
 ## Donate 💜
-Don't forget to [fund this project](https://ko-fi.com/hemann55) if it brings value to you. Issues and PRs are most welcome.
+Don't forget to [fund this project](https://ko-fi.com/hemann55) when it brings value to your buisness. Issues, feature requests and PRs are most welcome.
