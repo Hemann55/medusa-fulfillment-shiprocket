@@ -6,6 +6,8 @@ This plugin is inspired by Medusa's Official [Webshipper Plugin](https://github.
 
 [Medusa Website](https://medusajs.com) | [Medusa Repository](https://github.com/medusajs/medusa) | [Shiprocket API](https://apidocs.shiprocket.in)
 
+---
+<br/>
 
 ## Features
 
@@ -14,16 +16,18 @@ This plugin is inspired by Medusa's Official [Webshipper Plugin](https://github.
 - WIP: Listen to shipment status updates via webhooks
 - WIP: Shipment tracking endpoints
 
+---
+<br/>
 
 ## Prerequisites
 
 - [Medusa backend](https://docs.medusajs.com/development/backend/install)
 - [Medusa admin](https://docs.medusajs.com/admin/quickstart)
 - [Shiprocket Account](https://www.shiprocket.in/)
-- You need to create one API User as mentioned in [Shiprocket DOCS](https://apidocs.shiprocket.in)
+- You need to create one API User as mentioned in [Shiprocket docs](https://apidocs.shiprocket.in)
 
 ---
-
+<br/>
 
 ## How to Install
 
@@ -38,9 +42,6 @@ yarn add medusa-fulfillment-shiprocket
 2\. Set the following environment variables in `.env`:
 
 ```bash
-COMPANY_NAME=<YOUR_COMPANY_NAME>
-SHIPROCKET_COMPANY_ID=<YOUR_SHIPROCKET_COMPANY_ID>
-SHIPROCKET_USER_ID=<YOUR_SHIPROCKET_USER_ID>
 SHIPROCKET_CHANNEL_ID=<YOUR_SHIPROCKET_CHANNEL_ID>
 SHIPROCKET_EMAIL=<YOUR_SHIPROCKET_EMAIL>
 SHIPROCKET_PASSWORD=<YOUR_SHIPROCKET_PASSWORD>
@@ -70,7 +71,7 @@ const plugins = [
 ```
 
 ---
-
+<br/>
 
 ## Test the Plugin
 
@@ -85,7 +86,7 @@ npm run start
 3\. Place an order using a storefront or the [Store APIs](https://docs.medusajs.com/api/store). You should be able to use the shiprocket fulfillment provider during checkout.
 
 ---
-
+<br/>
 
 ## Units
 
@@ -95,49 +96,64 @@ If you are using any other unit then please change it to grams.
 You can specify the length units in mm, cm or inches depending on your preference and update the same in the plugin's "length_unit" option.
 
 ---
+<br/>
 
+## Pricing
 
-## Pricing options
+1\. `pricing: flat_rate` - Use this if you want to charge a fixed shipping rate to your customers at checkout.
 
-pricing: flat_rate - Use this if you want to charge a fixed shipping rate to your customers at checkout.
-pricing: calculated - Use this if your want to charge the actual shipping charge of the shipping option at checkout.
+2\. `pricing: calculated` - Use this if your want to charge the actual shipping rate of the shipping option at checkout.
 
 Don't forget to do the same when you add shipping options to your region in Medusa Admin.
 
-
 ---
-
+<br/>
 
 ## Pass GSTIN
 
 If you want to pass your customer's GSTIN to Shiprocket, please store it in the cart's metadata field as 'gstin'
 
----
+```js
+cart: {
+  metadata: {
+    "gstin": "XXXXXXX...",
+  }
+}
+```
 
+---
+<br/>
 
 ## Quality checks on Return Shipment
 
 If you want the courier to perform quality checks on return shipment at the time of pickup, you can pass the following in your item's metadata depending on the nature of quality check to be performed.
 
 ```js
-qc: {
-      qc_enable: true,
-      qc_color: 'varchar(255)',
-      qc_brand: 'varchar(255)',
-      qc_serial_no: 'varchar(255)',
-      qc_ean_barcode: 'varchar(255)',
-      qc_size: 'varchar(255)',
-      qc_product_name: 'varchar(255)',
-      qc_product_image: 'varchar(255)',
+cart: {
+  items:[
+    {
+      id:"item_xxx",
+      metadata:{
+        qc: {
+          qc_enable: true,
+          qc_color: 'varchar(255)',
+          qc_brand: 'varchar(255)',
+          qc_serial_no: 'varchar(255)',
+          qc_ean_barcode: 'varchar(255)',
+          qc_size: 'varchar(255)',
+          qc_product_name: 'varchar(255)',
+          qc_product_image: 'varchar(255)',
+        },
+      }
     },
-
+  ]
+}
 ```
 
-Remember to add this in your ITEM'S metadata for each item and not CART'S metadata. 
 Note: If there are multiple items, quality check will be performed only on a single item. Which item? Shiprocket won't tell us.
 
 ---
-
+<br/>
 
 ## Multiple shipments per order
 
@@ -145,11 +161,13 @@ Due to limitations in Shiprocket's API, it is currently not possible to create m
 
 To handle this limitation, this plugin lets you choose one of the following options when there are multiple items in your order to be fulfilled -
 
-1\. multiple_items: split_shipment
+1\. `multiple_items: split_shipment`
+
 Use this if you want to create a Shiprocket Order using this plugin and then create split shipments manually using Shiprocket's dashboard.
 The actual weight passed to Shiprocket is the sum of actual weights of all the items in your cart.
 
-2\. multiple_items: single_shipment
+2\. `multiple_items: single_shipment`
+
 Use this if you are packing multiple order items in a single shipment. You can pass the overall dimensions and weight of your shipment in the cart's metadata with the following keys-
 {
   shipment_length: 
@@ -163,57 +181,61 @@ If you don't pass the shipment_weight, the actual weight passed to Shiprocket is
 Most of the times, Shiprocket will use actual weight for rate calculation. However, if the volumetric weight is larger than actual weight, Shiprocket will use volumetric weight for rate calculations.
 
 ---
-
+<br/>
 
 ## Forward Action
 
 Determines what action this plugin will perform with Shiprocket when a forward fulfillment is created in Medusa.
 
-1\. forward_action: create_order
+1\. `forward_action: create_order`
+
 When you click on "Create Fulfillment" > "Complete" button for your order in Medusa Admin, this plugin will create a shiprocket order. The remaining steps of generating multiple split shipments, requesting it's pickup, generating label and manifest will have to be done manually by the seller in Shiprocket's dashboard.
 
-2\. forward_action: create_fulfillment
+2\. `forward_action: create_fulfillment`
+
 When you click on "Create Fulfillment" > "Complete" button for your order in Medusa Admin, this plugin creates a shiprocket order, generate shipment, request pickup and finally generates label and manifest using forward method in Shiprocket's [Wrapper API](https://apidocs.shiprocket.in/#6339172b-495f-4d2c-b1cf-2f8f493b6412).
 This returns a response which contains awb_code and all other order, courier and shipment related details. You can view this data in Medusa Admin by expanding the Raw Order > fulfillments > 0 > data
 
-If there are multiple items in your order and if multiple_items is set to "split_shipment" and forward_action is "create_fulfillment", this plugin will throw an error because Shiprocket doesn't support creating split shipments via API.
+If there are multiple items in your order and if multiple_items is set to `split_shipment` and forward_action is `create_fulfillment`, this plugin will throw an error because Shiprocket doesn't support creating split shipments via API.
 
-After the product is shipped, you can mark the fulfillment as "shipped" in Medusa Admin. 
+After the product is shipped, you can mark the fulfillment as `shipped` in Medusa Admin. 
 
 ---
-
+<br/>
 
 ## Return Action
 
 Determines what action this plugin will perform with Shiprocket when a return request is raised via storefront or admin.
 
-1\. return_action: create_order
+1\. `return_action: create_order`
+
 When the customer or admin raises a return request, this plugin will create a shiprocket return order. The remaining steps of generating multiple split shipments, requesting it's pickup, generating label and manifest will have to be done manually by the seller in Shiprocket's dashboard.
 
-2\. return_action: create_fulfillment
+2\. `return_action: create_fulfillment`
+
 When the customer or admin raises a return request, this plugin creates a shiprocket return order, generate awb and request pickup using return method in Shiprocket's [Wrapper API](https://apidocs.shiprocket.in/#f7e603e2-9f1f-4c70-9530-b8d4dd79f32e).
 This returns a response which contains awb_code and all other order, courier and shipment related details. You can view this data in Medusa Admin by expanding the Raw Order > returns > 0 > shipping_data
 
-If there are multiple items in your order and if multiple_items is set to "split_shipment" and return_action is "create_fulfillment", this plugin will throw an error because Shiprocket doesn't support creating split shipments via API.
+If there are multiple items in your order and if multiple_items is set to `split_shipment` and return_action is `create_fulfillment`, this plugin will throw an error because Shiprocket doesn't support creating split shipments via API.
 
-After the product is received, you can mark it as "received" in Medusa Admin. 
+After the product is received, you can mark it as `received` in Medusa Admin. 
 
 ---
-
+<br/>
 
 ## Inventory Sync
 
-inventory_sync: true - To sync your Medusa inventory with Shiprocket. This requires you to be on a monthly Shiprocket subscription plan.
+`inventory_sync: true` - To sync your Medusa inventory with Shiprocket. This requires you to be on a monthly Shiprocket subscription plan.
 
 ---
-
+<br/>
 
 ## Custom Functionality
 
-If your buisness logic requires a different functionality than described as above, you need to modify shiprocket-fulfillment.js in /src/services and use the utility fuctions created in /src/utils
+If your buisness logic requires a different functionality than described as above, you need to modify shiprocket-fulfillment.js in ```/src/services``` and use the utility fuctions created in ```/src/utils```
 
 ---
-
+<br/>
 
 ## Resources:
 
@@ -224,7 +246,7 @@ If your buisness logic requires a different functionality than described as abov
 - Example: Shippo https://github.com/macder/medusa-fulfillment-shippo
 
 ---
-
+<br/>
 
 ## Donate 💜
 Don't forget to [fund this project](https://ko-fi.com/hemann55) when it brings value to your buisness. Issues, feature requests and PRs are most welcome.
