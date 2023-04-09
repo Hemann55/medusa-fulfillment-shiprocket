@@ -53,7 +53,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
 
   //validate if shipping option still exists and active in Shiprocket before admin adds it to the store
   async validateOption(data) {
-    console.log('validateOption', data)
+    //console.log('validateOption', data)
 
     const allOpts = await this.client_.couriers.retrieveAll('active')
 
@@ -458,7 +458,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
       }
 
       if (gstin) {
-        forwardShipment.customer_gstin = gstin
+        newOrder.customer_gstin = gstin
       }
 
       if (
