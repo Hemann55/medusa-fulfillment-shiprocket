@@ -124,6 +124,21 @@ cart: {
 ---
 <br/>
 
+## COD Orders
+
+If the customer has chosen cash on delivery at checkout, you can let Shiprocket know that its a COD by passing the following in the cart's metadata.
+
+```js
+cart: {
+  metadata: {
+    "isCOD": true, 
+  }
+}
+```
+
+---
+<br/>
+
 ## Quality checks on Return Shipment
 
 If you want the courier to perform quality checks on return shipment at the time of pickup, you can pass the following in your item's metadata depending on the nature of quality check to be performed.
