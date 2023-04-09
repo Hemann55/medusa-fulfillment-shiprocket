@@ -172,7 +172,7 @@ Note: If there are multiple items, quality check will be performed only on a sin
 
 ## Multiple shipments per order
 
-Due to limitations in Shiprocket's API, it is currently not possible to create multiple shipments for a single order programatically. Sellers have to do it manually by enabling the "split shipment" feature in Settings > Shipping Features > Split Shipment and fulfilling the order as described in this [video](https://www.youtube.com/watch?v=7jpwOIquZtk).
+Due to limitations in Shiprocket's API, it is currently not possible to create multiple shipments for a single order programmatically. Sellers have to do it manually by enabling the "split shipment" feature in Settings > Shipping Features > Split Shipment and fulfilling the order as described in this [video](https://www.youtube.com/watch?v=7jpwOIquZtk).
 
 To handle this limitation, this plugin lets you choose one of the following options when there are multiple items in your order to be fulfilled -
 
@@ -190,10 +190,10 @@ Use this if you are packing multiple order items in a single shipment. You can p
   shipment_height: 
   shipment_weight: 
 }
-If you don't pass the dimensions, then this plugin will choose the largest item and pass its dimensions to Shiprocket for volumetic weight calculations.
+If you don't pass the dimensions, then this plugin will choose the largest item and pass its dimensions to Shiprocket for volumetric weight calculations.
 If you don't pass the shipment_weight, the actual weight passed to Shiprocket is the sum of actual weights of all the items in your cart. 
 
-Most of the times, Shiprocket will use actual weight for rate calculation. However, if the volumetric weight is larger than actual weight, Shiprocket will use volumetric weight for rate calculations.
+Most of the time, Shiprocket will use actual weight for rate calculation. However, if the volumetric weight is larger than actual weight, Shiprocket will use volumetric weight for rate calculations.
 
 ---
 <br/>
@@ -247,7 +247,7 @@ After the product is received, you can mark it as `received` in Medusa Admin.
 
 ## Custom Functionality
 
-If your buisness logic requires a different functionality than described as above, you need to modify shiprocket-fulfillment.js in ```/src/services``` and use the utility fuctions created in ```/src/utils```
+If your business logic requires a different functionality than described as above, you need to modify shiprocket-fulfillment.js in ```/src/services``` and use the utility functions created in ```/src/utils```
 
 ---
 <br/>
@@ -264,4 +264,4 @@ If your buisness logic requires a different functionality than described as abov
 <br/>
 
 ## Donate 💜
-Don't forget to [fund this project](https://ko-fi.com/hemann55) when it brings value to your buisness. Issues, feature requests and PRs are most welcome.
+Don't forget to [fund this project](https://ko-fi.com/hemann55) when it brings value to your business. Issues, feature requests and PRs are most welcome.
