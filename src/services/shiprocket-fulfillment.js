@@ -171,8 +171,6 @@ class ShiprocketFulfillmentService extends FulfillmentService {
         shipment_weight
       )
 
-    console.log(lengthInCM, widthInCM, heightInCM, shipmentWeight)
-
     const pickupLocations = await this.client_.company.retrieveAll()
 
     const forwardData = {
@@ -202,7 +200,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
         //just create order
 
         console.warn(
-          "It is currently not possible to create fulfillment for multiple split shipments due to limitations in Shiprocket's API. Creating a Shiprocket Order instead"
+          "Shiprocket: It is currently not possible to create fulfillment for multiple split shipments due to limitations in Shiprocket's API. Creating a Shiprocket Order instead"
         )
 
         return forwardOrder(forwardData)
@@ -219,7 +217,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
   }
 
   async createReturn(medusaReturn) {
-    console.log('medusaReturn', medusaReturn)
+    //console.log('medusaReturn', medusaReturn)
 
     //throw new Error('Not implemented yet')
 
@@ -265,11 +263,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
         shipment_weight
       )
 
-    console.log(lengthInCM, widthInCM, heightInCM, shipmentWeight)
-
     const pickupLocations = await this.client_.company.retrieveAll()
-
-    console.log("pickupLocations", pickupLocations)
 
     const reverseData = {
       options: this.options_,
@@ -295,7 +289,7 @@ class ShiprocketFulfillmentService extends FulfillmentService {
         //just create an order
 
         console.warn(
-          "It is currently not possible to create fulfillment for multiple split shipments due to limitations in Shiprocket's API. Creating a Shiprocket Order instead"
+          "Shiprocket: It is currently not possible to create fulfillment for multiple split shipments due to limitations in Shiprocket's API. Creating a Shiprocket Order instead"
         )
 
         return reverseOrder(reverseData)
